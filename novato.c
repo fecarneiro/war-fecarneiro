@@ -2,17 +2,25 @@
 #include <string.h>  // manipular strings
 #include <stdlib.h> // talvez p exit
 
+#
+
+
 struct Terrotorio {
   char nome[50];
   char cor [10];
   int tropas;
 };
 
+int main () { 
+  struct Terrotorio territorios[5];
+
+
+  return 0
+}
 
 
 
-// - Usar um **vetor estático de 5 elementos** para armazenar os territórios.
-// - Terminal Cadastrar os dados de cada território: **Nome**, **Cor do Exército**, e **Número de Tropas**.
+// - Terminal: Cadastrar os dados de cada território: **Nome**, **Cor do Exército**, e **Número de Tropas**.
 // - Exibir o estado atual do mapa.
 
 // ### ⚙️ Funcionalidades
