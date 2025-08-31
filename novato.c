@@ -17,8 +17,20 @@ void limparBufferEntrada() {
 
 int main () { 
   // Vetor Estático de Território com 5 elementos 
-  struct Terrotorio territorios[5];
+  struct Terrotorio territorio[5];
 
+  // Variável para armazenamento de territórios e opção do user
+  int totalTerritorios = 0;
+  int opcao;
+
+  // Laço para interagir com user no terminal
+  do {
+    printf(" --- MENU PARA CADASTRAR TERRITORIO( --- ")
+    printf(" ")
+    printf(" ")
+    printf(" ")
+    printf(" ")
+  }
 
   return 0
 }
