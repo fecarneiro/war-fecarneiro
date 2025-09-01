@@ -2,14 +2,10 @@
 #include <string.h> // manipular strings
 #include <stdlib.h> // talvez p exit
 
-// Constantes Globais
-#define MAX_TERRITORIOS 5
-#define TAM_STRING 30
-
 // Struct - Território
 struct Terrotorio
 {
-  char nome[50];
+  char nome[30];
   char cor[10];
   int tropas;
 };
@@ -26,7 +22,7 @@ void limparBufferEntrada()
 int main()
 {
   // Vetor Estático de Território com 5 elementos
-  struct Territorio territorio[MAX_TERRITORIOS];
+  struct Territorio territorio[5];
 
   // Variável para armazenamento de territórios e opção do user
   int totalTerritorios = 0;
@@ -53,19 +49,23 @@ int main()
 
     if (totalTerritorios < MAX_TERRITORIOS)
     {
-      printf("Digite o nome do territorio: ");
+      printf("Nome do Territorio: ");
       fgets(territorio[totalTerritorios].nome, TAM_STRING, stdin);
 
-      printf("Digite a cor do territorio: ");
+      printf("Cor do Território: ");
       fgets(territorio[totalTerritorios].cor, TAM_STRING, stdin);
 
-      printf("Digite o tamanho da tropa: ");
+      printf("Número de Tropas: ");
       fgets(territorio[totalTerritorios].tropas, TAM_STRING, stdin);
+      limparBufferEntrada();
     }
     break;
 
   default:
     break;
+  }
+  else
+  {
   }
 
   return 0
