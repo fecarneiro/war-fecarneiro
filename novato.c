@@ -3,72 +3,43 @@
 #include <stdlib.h> // talvez p exit
 
 // Struct - Território
-struct Terrotorio
-{
+typedef struct {
   char nome[30];
   char cor[10];
   int tropas;
-};
+} Territorio;
 
 // Função para limpar buffer
-void limparBufferEntrada()
-{
+void limparBufferEntrada() {
   int c;
   while ((c = getchar()) != '\n' && c != EOF)
-  {
-  }
-}
+};
 
 int main()
 {
   // Vetor Estático de Território com 5 elementos
-  struct Territorio territorio[5];
-
-  // Variável para armazenamento de territórios e opção do user
-  int totalTerritorios = 0;
-  int opcao;
+  Territorio territorios[5];
 
   // Laço para interagir com user no terminal
-  do
-  {
-    printf(" --- MENU PARA CADASTRAR TERRITORIO --- ");
-    printf("1 - Cadastrar novo territorio\n");
-    printf("2 - Listar todos territorios\n");
-    printf("0 - Sair\n");
-    printf(" ---------------------------------------- ");
-    printf(" Escolha uma opção: ");
+  for (int i = 1; i < 5; i ++) {
 
-    scanf("%d", &opcao);
-    limparBufferEntrada();
+    printf("  --- CADASTRANDO TERRITORIO: %d --- \n", i + 1);
+
+        // Leitura do nome do território
+        printf("Digite o nome do territorio: ");
+        scanf("%s", territorios[i].nome);
+        
+        // Leitura da cor do exército
+        printf("Digite a cor do exercito: ");
+        scanf("%s", territorios[i].cor);
+        
+        // Leitura do número de tropas
+        printf("Digite o numero de tropas: ");
+        scanf("%d", &territorios[i].tropas);
+
   }
 
-  switch (opcao)
-  {
-  case 1:
-    printf("  --- CADASTRO DE NOVO TERRITORIO --- \n\n");
 
-    if (totalTerritorios < MAX_TERRITORIOS)
-    {
-      printf("Nome do Territorio: ");
-      fgets(territorio[totalTerritorios].nome, TAM_STRING, stdin);
-
-      printf("Cor do Território: ");
-      fgets(territorio[totalTerritorios].cor, TAM_STRING, stdin);
-
-      printf("Número de Tropas: ");
-      fgets(territorio[totalTerritorios].tropas, TAM_STRING, stdin);
-      limparBufferEntrada();
-    }
-    break;
-
-  default:
-    break;
-  }
-  else
-  {
-  }
-
-  return 0
 }
 
 //  **Nome**, **Cor do Exército**, e **Número de Tropas**.
