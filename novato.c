@@ -20,9 +20,11 @@ int main()
   // Vetor Estático de Território com 5 elementos
   Territorio territorios[5];
 
+  printf("=== DESAFIO WAR ESTRUTURADO - CADASTRO DE TERRITORIOS ===\n\n");
+  printf("Vamos cadastrar 5 territórios para o jogo WAR!\n\n");
+
   // Laço para interagir com user no terminal
   for (int i = 1; i < 5; i ++) {
-
     printf("  --- CADASTRANDO TERRITORIO: %d --- \n", i + 1);
 
         // Leitura do nome do território
@@ -37,27 +39,31 @@ int main()
         printf("Digite o numero de tropas: ");
         scanf("%d", &territorios[i].tropas);
 
+        printf("\n");
+  }
+  // Exibição dos dados cadastrados
+  printf("\n=== MAPA ATUAL DOS TERRITORIOS ===\n");
+  printf("%-20s %-15s %s\n", "TERRITORIO", "COR DO EXERCITO", "TROPAS");
+  printf("%-20s %-15s %s\n", "----------", "---------------", "------");
+
+  for (int i = 0; i < 5; i++) {
+      printf("%-20s %-15s %d\n", 
+            territorios[i].nome, 
+            territorios[i].cor, 
+            territorios[i].tropas);
   }
 
+  // Estatísticas básicas
+  int totalTropas = 0;
+  for (int i = 0; i < 5; i++) {
+      totalTropas += territorios[i].tropas;
+  }
+
+  printf("\n=== ESTATISTICAS ===\n");
+  printf("Total de territorios: 5\n");
+  printf("Total de tropas no mapa: %d\n", totalTropas);
+  printf("Media de tropas por territorio: %.1f\n", (float)totalTropas / 5);
+
+  return 0;
 
 }
-
-//  **Nome**, **Cor do Exército**, e **Número de Tropas**.
-// - Exibir o estado atual do mapa.
-
-// ### ⚙️ Funcionalidades
-
-// - Leitura de dados pelo terminal (`fgets` e `scanf`)
-// - Impressão organizada dos dados de todos os territórios
-
-// ### 💡 Conceitos abordados
-
-// - `struct`
-// - Vetor estático
-// - Entrada/saída com `scanf`, `fgets`, e `printf`
-
-// ### 📥 Entrada
-
-// O usuário digita o nome do território, a cor do exército dominante e o número de tropas para **cada um dos 5 territórios**.
-
-// ### 📤 Saída
