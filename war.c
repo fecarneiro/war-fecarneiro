@@ -19,7 +19,7 @@ int main()
   printf("Vamos cadastrar 5 territórios para o jogo WAR!\n\n");
 
   // Laço para interagir com user no terminal
-  for (int i = 1; i < 5; i++)
+  for (int i = 0; i < 5; i++)
   {
     printf("  --- CADASTRANDO TERRITORIO: %d --- \n", i + 1);
 
