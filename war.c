@@ -12,14 +12,17 @@ typedef struct
 
 int main()
 {
-  // Vetor Estático de Território com 5 elementos
-  Territorio territorios[5];
+  // // Vetor Estático de Território com 5 elementos
+  // Territorio territorios[5];
 
-  printf("=== DESAFIO WAR ESTRUTURADO - CADASTRO DE TERRITORIOS ===\n\n");
-  printf("Vamos cadastrar 5 territórios para o jogo WAR!\n\n");
+  printf("--- WAR ESTRUTURADO - CADASTRO DE TERRITORIOS ---\n\n");
+  printf("Digite a quantidade de Territórios:\n\n");
+  // Leitura da quantidade de territórios
+  int quantidade;
+  scanf("%d", &quantidade);
 
   // Laço para interagir com user no terminal
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < quantidade; i++)
   {
     printf("  --- CADASTRANDO TERRITORIO: %d --- \n", i + 1);
 
@@ -38,7 +41,7 @@ int main()
     printf("\n");
   }
   // Exibição dos dados cadastrados
-  printf("\n=== MAPA ATUAL DOS TERRITORIOS ===\n");
+  printf("\n--- MAPA ATUAL DOS TERRITORIOS ---\n");
   printf("%-20s %-15s %s\n", "TERRITORIO", "COR DO EXERCITO", "TROPAS");
   printf("%-20s %-15s %s\n", "----------", "---------------", "------");
 
