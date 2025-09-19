@@ -3,8 +3,8 @@
 
 // Fase de ataque
 printf("\n--- FASE DE ATAQUE ---\n");
-printf("Escolha o territorio atacante(1 a 5), ou 0 para sair: ");
-printf("Escolha o territorio defensor(1 a 5): ");
+printf("Escolha o territorio atacante(1 a quantidade), ou 0 para sair: ");
+printf("Escolha o territorio defensor(1 a quantidade): ");
 
 printf("\n--- RESULTADO DA BATALHA ---\n");
 printf("O atacante {nome} rolou um dado e tirou: {numero} ");
