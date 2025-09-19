@@ -19,6 +19,19 @@ typedef struct
   int tropas;
 } Territorio;
 
+// Função para verificar se todos os territórios têm a mesma cor
+int allSameColor(Territorio *territorios, int totalTerritorio)
+{
+  for (int i = 1; i < totalTerritorio; i++)
+  {
+    if (strcmp(territorios[0].cor, territorios[i].cor) != 0)
+    {
+      return 0; // Falso
+    }
+  }
+  return 1; // Verdadeiro
+}
+
 // Função para cadastrar territórios
 void cadastrarTerritorios(Territorio *territorios, int totalTerritorio)
 {
@@ -46,7 +59,7 @@ void cadastrarTerritorios(Territorio *territorios, int totalTerritorio)
 // Função para exibir o mapa dos territórios
 void exibirMapa(Territorio *territorios, int totalTerritorio)
 {
-  printf("\n--- MAPA ATUAL DOS TERRITORIOS ---\n");
+  printf("\n===== MAPA ATUAL DOS TERRITORIOS ========\n");
   printf("%-20s %-15s %s\n", "TERRITORIO", "COR DO EXERCITO", "TROPAS");
   printf("%-20s %-15s %s\n", "----------", "---------------", "------");
 
@@ -60,37 +73,55 @@ void exibirMapa(Territorio *territorios, int totalTerritorio)
 }
 
 // Função para simular o ataque entre dois territórios
-void atacar(Territorio *atacante, Territorio *defensor, int *dadoAtac, int *dadoDef)
+void atacar(Territorio *atacante, Territorio *defensor)
 {
   srand(time(NULL));
-  *dadoAtac = (rand() % 6) + 1;
-  *dadoDef = (rand() % 6) + 1;
+  int dadoAtac = (rand() % 6) + 1;
+  int dadoDef = (rand() % 6) + 1;
 
-  if (*dadoAtac > *dadoDef)
+  printf("\n--- RESULTADO DA BATALHA ---\n");
+  printf("O atacante %s rolou um dado e tirou: %d\n", atacante->nome, dadoAtac);
+  printf("O defensor %s rolou um dado e tirou: %d\n", defensor->nome, dadoDef);
+
+  Territorio *vencedor = NULL;
+  Territorio *perdedor = NULL;
+
+  if (dadoAtac > dadoDef)
   {
-    if (defensor->tropas == 1)
-    {
-      printf("VITORIA DO ATACANTE - O territorio %s conquistou o territorio %s!\n", atacante->nome, defensor->nome);
-      strcpy(defensor->cor, atacante->cor); // Corrigido: defensor assume a cor do atacante
-      defensor->tropas = 1;                 // Conquistado com 1 tropa
-      atacante->tropas -= 1;                // Atacante perde 1
-      return;
-    }
-    defensor->tropas -= 1; // Defensor perde 1
-    printf("VITORIA DO ATACANTE - O territorio %s conquistou uma tropa de %s!\n", atacante->nome, defensor->nome);
+    vencedor = atacante;
+    perdedor = defensor;
+    printf("VITORIA DO ATACANTE - O territorio %s venceu contra %s!\n", atacante->nome, defensor->nome);
   }
   else
   {
-    if (atacante->tropas == 1)
-    {
-      printf("VITORIA DO DEFENSOR - O territorio %s conquistou o territorio %s!\n", defensor->nome, atacante->nome);
-      strcpy(atacante->cor, defensor->cor); // Corrigido: atacante assume a cor do defensor
-      atacante->tropas = 1;                 // Conquistado com 1 tropa
-      defensor->tropas -= 1;                // Defensor perde 1
-      return;
-    }
-    atacante->tropas -= 1; // Atacante perde 1
+    vencedor = defensor;
+    perdedor = atacante;
     printf("VITORIA DO DEFENSOR - O territorio %s defendeu com sucesso contra %s!\n", defensor->nome, atacante->nome);
+  }
+
+  // Subtrair 1 tropa do perdedor
+  perdedor->tropas -= 1;
+
+  // Se o perdedor ficou com 0 tropas, aplicar regras especiais
+  if (perdedor->tropas == 0)
+  {
+    // Transferir cor para o vencedor
+    strcpy(perdedor->cor, vencedor->cor);
+    // Passar a tropa (1) para o vencedor
+    int totalTropasVencedor = vencedor->tropas + 1;
+    // Dividir por 2
+    int metade = totalTropasVencedor / 2;
+    // Perdedor (agora dominado) fica com metade
+    perdedor->tropas = metade;
+    // Vencedor fica com a outra metade
+    vencedor->tropas = totalTropasVencedor - metade;
+    printf("CONQUISTA ESPECIAL: %s conquistou %s, transferindo cor e redistribuindo tropas (%d para %s, %d para %s).\n",
+           vencedor->nome, perdedor->nome, perdedor->tropas, perdedor->nome, vencedor->tropas, vencedor->nome);
+  }
+  else
+  {
+    // Se perdedor tinha mais de 1, apenas perdeu 1 tropa
+    printf("O territorio %s perdeu 1 tropa.\n", perdedor->nome);
   }
 }
 
@@ -101,8 +132,16 @@ int main()
   printf("Digite a quantidade de Territórios desejada:\n\n");
 
   int totalTerritorio;
-  // Leitura da quantidade de territórios
-  scanf("%d", &totalTerritorio);
+  // Leitura da quantidade de territórios com validação
+  do
+  {
+    scanf("%d", &totalTerritorio);
+    if (totalTerritorio <= 1)
+    {
+      printf("Erro: A quantidade de territorios deve ser maior que 1. Tente novamente:\n");
+    }
+  } while (totalTerritorio <= 1);
+
   // Alocação dinâmica de memória para os territórios
   Territorio *territorios = calloc(totalTerritorio, sizeof(Territorio));
   if (territorios == NULL)
@@ -121,6 +160,7 @@ int main()
   while (1)
   {
     printf("\n--- FASE DE ATAQUE ---\n");
+    exibirMapa(territorios, totalTerritorio); // Mostra mapa para facilitar seleção
     printf("Escolha o territorio atacante (1 a %d), ou 0 para sair: ", totalTerritorio);
     int atacanteIndex;
     scanf("%d", &atacanteIndex);
@@ -138,6 +178,7 @@ int main()
     atacanteIndex--;
     defensorIndex--;
 
+    // Validações adicionais
     if (atacanteIndex < 0 || atacanteIndex >= totalTerritorio ||
         defensorIndex < 0 || defensorIndex >= totalTerritorio ||
         atacanteIndex == defensorIndex)
@@ -145,20 +186,23 @@ int main()
       printf("Selecao invalida. Tente novamente.\n");
       continue;
     }
+    if (strcmp(territorios[atacanteIndex].cor, territorios[defensorIndex].cor) == 0)
+    {
+      printf("Erro: Nao pode atacar um territorio da mesma cor (mesmo dono).\n");
+      continue;
+    }
 
-    int dadoAtac, dadoDef;
-    atacar(&territorios[atacanteIndex], &territorios[defensorIndex], &dadoAtac, &dadoDef);
-
-    printf("\n--- RESULTADO DA BATALHA ---\n");
-    printf("O atacante %s rolou um dado e tirou: %d\n", territorios[atacanteIndex].nome, dadoAtac);
-    printf("O defensor %s rolou um dado e tirou: %d\n", territorios[defensorIndex].nome, dadoDef);
+    atacar(&territorios[atacanteIndex], &territorios[defensorIndex]);
 
     // Imprimir mapa atualizado
     printf("\n--- MAPA MUNDO - ESTADO ATUAL ---\n");
-    printf("\n--- MAPA ATUAL DOS TERRITORIOS ---\n");
-    for (int i = 0; i < totalTerritorio; i++)
+    exibirMapa(territorios, totalTerritorio);
+
+    // Verificar se o jogo acabou
+    if (allSameColor(territorios, totalTerritorio))
     {
-      printf("%d - %s %s - %d tropas\n", i + 1, territorios[i].nome, territorios[i].cor, territorios[i].tropas);
+      printf("Jogo acabou! Todos os territorios possuem a mesma cor.\n");
+      break;
     }
 
     printf("Pressione ENTER para continuar para o proximo turno...");
