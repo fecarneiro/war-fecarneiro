@@ -19,6 +19,14 @@ typedef struct
   int tropas;
 } Territorio;
 
+// Struct - Jogador
+typedef struct
+{
+  char nome[30];
+  char *missao; // Missão Alocada Dinamicamente
+  int cumprida; // 0 = não, 1 = sim
+} Jogador;
+
 // Função para verificar se todos os territórios têm a mesma cor
 int allSameColor(Territorio *territorios, int totalTerritorio)
 {
